@@ -92,6 +92,8 @@ Pixmap	digitPixmaps[NUM_DIGITS];
 Pixmap	digitPixmapsM[NUM_DIGITS];
 
 u_long score = 0L;
+const int digitWidth = 30;
+const int digitHeight = 40;
 
 
 void InitialiseScoreDigits(Display *display, Window window, Colormap colormap)
@@ -150,22 +152,23 @@ void InitialiseScoreDigits(Display *display, Window window, Colormap colormap)
 static void DrawDigit(Display *display, Window window, int digit, int x, int y)
 {
 	/* Draw the digit in the window */
-	RenderShape(display, window, 
-		digitPixmaps[digit], digitPixmapsM[digit], x, y, 30, 40, True);
+        RenderShape(display, window, 
+		digitPixmaps[digit], digitPixmapsM[digit], x, y, digitWidth, digitHeight, True);
 }
 
 void DrawOutNumber(Display *display, Window window, u_long score, int x, int y)
 {
-	int digit;
+        int digit;
+	const int digitSpacing = 32;
 
 	/* Get the digit that we want from the score */
 	if (score / 10)
-		DrawOutNumber(display, window, (score / 10), x - 32, y);
+		DrawOutNumber(display, window, (score / 10), x - digitSpacing, y);
 
 	/* Work out the digit needed to draw */
 	digit = (int) (score % 10);
 
-	DrawDigit(display, window, digit, x - 32, y);
+	DrawDigit(display, window, digit, x - digitSpacing, y);
 }
 
 void SetTheScore(u_long new)
@@ -200,9 +203,9 @@ void DisplayScore(Display *display, Window window, u_long score)
 	/* Draw a zero if no score */
 	if (score == 0L)
 		RenderShape(display, window, 
-			digitPixmaps[0], digitPixmapsM[0], 192, 0, 30, 40, True);
+			digitPixmaps[0], digitPixmapsM[0], 192, 0, digitWidth, digitHeight, True);
 	else
-		/* Draw the score digits rescursively */
+		/* Draw the score digits recursively */
 		DrawOutNumber(display, window, score, 224, 0);
 }
 
