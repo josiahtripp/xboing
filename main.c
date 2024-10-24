@@ -113,7 +113,8 @@ int 			paddleDx = 0;
 int 			speedLevel = 5;
 int 			frame, gameActive;
 int 			mode, oldMode;
-static int 		iconified = False;
+//Changed static int to static bool(CHANGE FROM ORIGINAL)
+static bool 		iconified = False;
 long 			speed;
 static int 		userDelay = 1;
 static int 		paddleControl;
@@ -154,8 +155,11 @@ void SetPaddleControlMode(int type)
 void SetGameSpeed(int delay)
 {
 	/* This is the speed used in the sleeping routine */
+  long longDelay = (long) delay;
+  //Sets userDelay to long before multiplication to avoid overflow as states in issue#12(CHANGE FROM ORIGINAL)
+  long longuserDelay = (long) userDelay;
 	if (delay >= 0)
-		speed = (long) (delay * userDelay);
+		speed = (longDelay * longuserDelay);
 }
 
 static KeySym GetKeySym(XEvent event)
@@ -179,7 +183,7 @@ int paddleIsMoving(void)
 
 void handlePaddleMoving(Display *display)
 {
-	static oldx = 0;
+	int static oldx = 0;
 	int x, y;
 
 	if (paddleControl == CONTROL_KEYS)
@@ -288,11 +292,11 @@ void SelectiveRedraw(Display *display)
 		case MODE_PAUSE:
 			RedrawPlayWindow(display, playWindow);
 			break;
-
+			
 		case MODE_EDIT:
 			RedrawEditor(display, playWindow);
 			break;
-
+			
 		case MODE_INTRO:
 			RedrawIntroduction(display, playWindow);
 			break;
