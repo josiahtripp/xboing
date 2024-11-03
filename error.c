@@ -50,6 +50,9 @@
 #include <stdio.h>
 #include <raylib.h>
 
+// TODO: Remove functional reliance on X11
+// #include <xpm.h>
+
 #include "init.h"
 #include "error.h"
 
