@@ -13,7 +13,9 @@
 #define BLOCK_HEIGHT 20
 
 #define COL_MAX 9
-#define ROW_MAX 15
+#define ROW_MAX 15 //The Max number of rows when inputing a level
+
+#define MAX_ROW 18 //The Max number of rows when drawing the level (leaves 3 rows blank at the bottom for the paddle)
 
 typedef struct Block{
 
@@ -57,7 +59,7 @@ int main(){
     InitWindow(screenWidth, screenHeight, "xboing asset test");
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
-	char filename[] = "levels/level25.data";
+	char filename[] = "levels/level45.data";
 
 	loadBlocks(filename);// Load data from file
 
@@ -118,7 +120,7 @@ void drawBlocks(){
 
     /* Setup the new level data */
     int colWidth    = PLAY_WIDTH / COL_MAX;
-    int rowHeight   = PLAY_HEIGHT / ROW_MAX;
+    int rowHeight   = PLAY_HEIGHT / (MAX_ROW);
 	Texture2D blockTexture;
 	Block blockP;
 
